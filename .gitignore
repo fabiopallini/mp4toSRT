@@ -1,0 +1,10 @@
+model
+lib/*.so
+lib/*.dll
+lib/*.a
+lib/*.dylib
+*.mp4
+.DS_Store
+ffmpeg
+*.srt
+mp4toSRT
