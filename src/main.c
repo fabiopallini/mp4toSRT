@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 		close(p[1]);
 		execl("ffmpeg", "ffmpeg", "-loglevel", "quiet", 
 			"-i", argv[1], "-ar", "16000", "-ac", "1", "-f", "s16le", "-", NULL);
-		perror("error:");
+		perror("ffmpeg error:");
 	} 
 	else {
 		close(p[1]);
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 		//printf("Output: %s\n", data);
 		char phrase[1000];
 		unsigned int n_phrase = 0;
-		FILE *f = fopen("result.srt", "w");
+		FILE *f = fopen(strcat(argv[1], ".srt"), "w");
 
 		while ((nbytes = read(p[0], data, sizeof(data))) != 0){
 			final = vosk_recognizer_accept_waveform(recognizer, data, nbytes); 
