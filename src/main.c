@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 		dup2(p[1], STDOUT_FILENO); 
 		close(p[0]);
 		close(p[1]);
-		execl("/usr/bin/ffmpeg", "ffmpeg", "-loglevel", "quiet", 
+		execl("ffmpeg", "ffmpeg", "-loglevel", "quiet", 
 			"-i", argv[1], "-ar", "16000", "-ac", "1", "-f", "s16le", "-", NULL);
 		perror("error:");
 	} 
@@ -44,27 +44,12 @@ int main(int argc, char *argv[]) {
 		char phrase[1000];
 		unsigned int n_phrase = 0;
 		FILE *f = fopen("result.srt", "w");
-		char dots[60];
-		unsigned dots_count = 0;
 
 		while ((nbytes = read(p[0], data, sizeof(data))) != 0){
 			final = vosk_recognizer_accept_waveform(recognizer, data, nbytes); 
 			if (final) {
 				const char *result = vosk_recognizer_result(recognizer);
 				convertToSrt(result, phrase, &n_phrase, f);	
-			}
-			else {
-				if(dots_count < 60){
-					printf("\r%s", dots);
-					fflush(stdout);
-					strcat(dots, ".");
-					dots_count += 1;
-				}
-				else {
-					strcpy(dots, "");
-					printf("\n");
-					dots_count = 0;
-				}
 			}
 		}
 
@@ -118,7 +103,7 @@ void secondsToTime(char *arr, float sec) {
 	int m = (sec -(3600*h))/60;
 	float s = (sec -(3600*h)-(m*60));
 	
-	char ss[6];
+	char ss[7];
 	if (s < 10)
 		sprintf(ss, "0%.3f", s);
 	else

@@ -2,7 +2,7 @@ model
 lib/*.so
 lib/*.dll
 lib/*.a
-lib/*.dylib
+*.dylib
 *.mp4
 .DS_Store
 ffmpeg
